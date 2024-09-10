@@ -1,74 +1,73 @@
 import 'dart:io';
 
-double getInput(String prompt) {
-  print(prompt);
-  String? input = stdin.readLineSync();
-  return double.tryParse(input ?? '') ?? 0.0;
-}
-
-// Fungsi operasi matematika.
-double tambah(double a, double b) => a + b;
-double kurang(double a, double b) => a - b;
-double kali(double a, double b) => a * b;
-double bagi(double a, double b) {
-  if (b == 0) {
-    throw ArgumentError('Pembagian dengan nol tidak diperbolehkan.');
-  }
-  return a / b;
-}
-
-// Fungsi kalkulator utama.
-void kalkulator() {
-  print('Selamat datang di Kalkulator Dart!');
-
-  while (true) {
-    print('\nPilih operasi yang ingin Anda lakukan:');
-    print('1. Tambah (+)');
-    print('2. Kurang (-)');
-    print('3. Kali (*)');
-    print('4. Bagi (/)');
-    print('5. Keluar');
-
-    print('Masukkan pilihan Anda (1-5): ');
-    String? choice = stdin.readLineSync();
-
-    if (choice == '5') {
-      print('Terima kasih telah menggunakan Kalkulator Dart. Sampai jumpa!');
-      break;
-    }
-
-    double num1 = getInput('Masukkan angka pertama: ');
-    double num2 = getInput('Masukkan angka kedua: ');
-
-    double hasil;
-
-    switch (choice) {
-      case '1':
-        hasil = tambah(num1, num2);
-        print('Hasil: $num1 + $num2 = $hasil');
-        break;
-      case '2':
-        hasil = kurang(num1, num2);
-        print('Hasil: $num1 - $num2 = $hasil');
-        break;
-      case '3':
-        hasil = kali(num1, num2);
-        print('Hasil: $num1 * $num2 = $hasil');
-        break;
-      case '4':
-        try {
-          hasil = bagi(num1, num2);
-          print('Hasil: $num1 / $num2 = $hasil');
-        } catch (e) {
-          print(e);
-        }
-        break;
-      default:
-        print('Operasi tidak valid. Silakan pilih antara 1-5.');
-    }
-  }
-}
-
 void main() {
-  kalkulator();
+  print("========================================");
+  print("       Program Menghitung IPK Mahasiswa      ");
+  print("========================================");
+
+  stdout.write("Masukkan jumlah semester: ");
+  int jumlahSemester = int.parse(stdin.readLineSync()!);
+
+  double totalSKS = 0;
+  double totalNilai = 0;
+
+  for (int i = 1; i <= jumlahSemester; i++) {
+    stdout.write("Masukkan jumlah mata kuliah semester $i: ");
+    int jumlahMatkul = int.parse(stdin.readLineSync()!);
+
+    double nilaiSemester = 0;
+    double sksSemester = 0;
+
+    for (int j = 1; j <= jumlahMatkul; j++) {
+      stdout.write("Masukkan nama mata kuliah ke $j: ");
+      String namaMatkul = stdin.readLineSync()!;
+
+      stdout.write("Masukkan jumlah sks matkul: ");
+      int sks = int.parse(stdin.readLineSync()!);
+
+      stdout.write("Masukkan nilai matkul: ");
+      String nilaiHuruf = stdin.readLineSync()!.toUpperCase();
+
+      double nilaiAngka;
+      switch (nilaiHuruf) {
+        case 'A':
+          nilaiAngka = 4.0;
+          break;
+        case 'B':
+          nilaiAngka = 3.0;
+          break;
+        case 'C':
+          nilaiAngka = 2.0;
+          break;
+        case 'D':
+          nilaiAngka = 1.0;
+          break;
+        case 'E':
+          nilaiAngka = 0.0;
+          break;
+        default:
+          nilaiAngka = 0.0;
+          break;
+      }
+
+      sksSemester += sks;
+      nilaiSemester += nilaiAngka * sks;
+    }
+
+    totalSKS += sksSemester;
+    totalNilai += nilaiSemester;
+
+    double nr = nilaiSemester / sksSemester;
+    print("\n----------------------------------------");
+    print("Hasil Semester $i:");
+    print("SKS   : $sksSemester");
+    print("NR    : ${nr.toStringAsFixed(2)}");
+    print("----------------------------------------\n");
+  }
+
+  double ipk = totalNilai / totalSKS;
+  print("========================================");
+  print("Total SKS : $totalSKS");
+  print("IPK       : ${ipk.toStringAsFixed(2)}");
+  print("========================================");
 }
