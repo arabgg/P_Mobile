@@ -1,0 +1,4 @@
+-keep class androidx.security.crypto.** { *; }
+-keep class android.arch.lifecycle.** { *; }
+-dontwarn androidx.security.crypto.**
+-dontwarn androidx.lifecycle.**
